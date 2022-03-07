@@ -1,15 +1,11 @@
-
 package control;
-
 
 public class Controller {
 
-    public Controller() {
+public Controller() {
         
         DatabaseController dbCtr = new DatabaseController();
         new ViewController( dbCtr );
         
     }
-    
-    
 }

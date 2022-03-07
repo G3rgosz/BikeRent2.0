@@ -1,4 +1,3 @@
-
 package model;
 
 import java.util.Vector;
@@ -26,7 +25,7 @@ public class ViewModel {
         
         Vector<String> columnNames = new Vector<>();
         
-        columnNames.add( "Stílus" );
+        columnNames.add( "Típus" );
         columnNames.add( "Nem" );
         columnNames.add( "Méret" );
         columnNames.add( "Fék" );
@@ -42,7 +41,7 @@ public class ViewModel {
         Vector<String> columnNames = new Vector<>();
         
         columnNames.add( "Név" );
-        columnNames.add( "Kerékpár" );
+        columnNames.add( "Azonosító" );
         columnNames.add( "Ki dátum" );
         columnNames.add( "Be dátum" );
         columnNames.add( "Letét" );

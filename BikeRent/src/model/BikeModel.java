@@ -1,18 +1,16 @@
 package model;
 
-
 public class BikeModel {
 
     private String code;
     private int speed;
     private String brand;
     private String brake;
-    private String design;
+    private String design; // férfi, nõi
     private String size;
-    private String type;
-    
+    private String type; //országúti stb
+
     public BikeModel() {
-    
     }
 
     public String getCode() {
@@ -47,7 +45,7 @@ public class BikeModel {
         this.code = code;
     }
 
-    public void setSpeed(String speed) {
+    public void setSpeed( String speed ) {
         this.speed = Integer.parseInt(speed);
     }
 
@@ -70,5 +68,4 @@ public class BikeModel {
     public void setType(String type) {
         this.type = type;
     }
-    
 }

@@ -6,6 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/diak/Documents/szivak_gergo/Kerekpar/libraries/mariadb-java-client-2.7.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/diak/Documents/szivak_gergo/Kerekpar/Bikerent/libraries/mariadb-java-client-2.7.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

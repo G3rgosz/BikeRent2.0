@@ -1,4 +1,3 @@
-
 package model;
 
 import java.io.IOException;
@@ -6,15 +5,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
+
 
 public class DatabaseModel {
     
     public DatabaseModel() {
     }
-   
+    
     private String[] getSql( String fileName ) {
         
         String filePath = "sql/" + fileName + ".sql";
@@ -23,6 +25,7 @@ public class DatabaseModel {
             
            Path path = Path.of( filePath );
            String content = Files.readString( path );
+           
            sql = content.split( ";" ); 
            
         } catch ( IOException ex ) {
@@ -89,93 +92,106 @@ public class DatabaseModel {
         
         return rs;
     }
-    public boolean setMember(Connection conn, MemberModel member) {
+    
+    public boolean setMember( Connection conn, MemberModel member ) {
         
-        String[] sql = getSql( "setMember" );
-        
+        String[] sql = getSql( "__SETMEMBER__" );
         PreparedStatement pstmt = null;
         
         try {
             
-            pstmt = conn.prepareStatement( sql[0] );
-            pstmt.setString( 1 , member.getName());
-            pstmt.setString( 2 , member.getEmail());
-            pstmt.setString( 3 , member.getPhone());
-            pstmt.setString( 4 , member.getAddress());
-            pstmt.setString( 5 , member.getIdentity());
+            pstmt = conn.prepareStatement( sql[ 0 ]);
+            pstmt.setString( 1, member.getName() );
+            pstmt.setString( 2, member.getEmail() );
+            pstmt.setString( 3, member.getPhone() );
+            pstmt.setString( 4, member.getAddress() );
+            pstmt.setString( 5, member.getIdentity() );
             pstmt.executeQuery();
             
             return true;
-        } catch (SQLException ex) {
+            
+        } catch ( SQLException ex ) {
+            
             ex.printStackTrace();
             return false;
         }
     }
-    public boolean setBike(Connection conn, BikeModel bike) {
+    
+    public boolean setBike( Connection conn, BikeModel model ) {
         
-        String[] sql = getSql("setBike");
+        String[] sql = getSql( "__SETBIKE__" );
+        
         PreparedStatement pstmt = null;
         try {
-        	pstmt = conn.prepareStatement(sql[0], Statement.RETURN_GENERATED_KEYS);
-            pstmt.setString(1, bike.getBrand());
-            pstmt.executeQuery();
-            ResultSet id1 = pstmt.getGeneratedKeys();
-            int brand_Id = 0;
-            if(id1.next()) {
-            	brand_Id = id1.getInt(1);
-            }
-            pstmt = null;
-        	pstmt = conn.prepareStatement(sql[0], Statement.RETURN_GENERATED_KEYS);
-            pstmt.setString(1, bike.getBrake());
-            pstmt.executeQuery();
-            ResultSet id2 = pstmt.getGeneratedKeys();
-            int brake_Id = 0;
-            if(id2.next()) {
-            	brake_Id = id2.getInt(1);
-            }
-            pstmt = null;
-        	pstmt = conn.prepareStatement(sql[0], Statement.RETURN_GENERATED_KEYS);
-            pstmt.setString(1, bike.getDesign());
-            pstmt.executeQuery();
-            ResultSet id3 = pstmt.getGeneratedKeys();
-            int design_Id = 0;
-            if(id3.next()) {
-            	design_Id = id3.getInt(1);
-            }
-            pstmt = null;
-        	pstmt = conn.prepareStatement(sql[0], Statement.RETURN_GENERATED_KEYS);
-            pstmt.setString(1, bike.getSize());
-            pstmt.executeQuery();
-            ResultSet id4 = pstmt.getGeneratedKeys();
-            int size_Id = 0;
-            if(id4.next()) {
-            	size_Id = id4.getInt(1);
-            }
-            pstmt = null;
-        	pstmt = conn.prepareStatement(sql[0], Statement.RETURN_GENERATED_KEYS);
-            pstmt.setString(1, bike.getType());
-            pstmt.executeQuery();
-            ResultSet id5 = pstmt.getGeneratedKeys();
-            int type_Id = 0;
-            if(id5.next()) {
-            	type_Id = id5.getInt(1);
-            }
-            pstmt = null;
-            pstmt = conn.prepareStatement(sql[5]);
-        	pstmt.setString(1, bike.getCode());
-        	pstmt.setInt(2, bike.getSpeed());
-        	pstmt.setInt(3, brand_Id);
-        	pstmt.setInt(4, brake_Id);
-        	pstmt.setInt(5, design_Id);
-        	pstmt.setInt(6, size_Id);
-        	pstmt.setInt(7, type_Id);
-        	pstmt.execute();
-        	
-        	return true;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
             
+            pstmt = conn.prepareStatement( sql[ 0 ]);//, Statement.RETURN_GENERATED_KEYS 
+            pstmt.setString( 1, model.getBrand() );
+            ResultSet id1 = pstmt.executeQuery();
+            int brand_id = 0;
+            while(id1.next()) {
+            	brand_id = id1.getInt(1);
+            }
+            	
+//            		pstmt.getGeneratedKeys();
+//            int brand_id = 0;
+//            if ( id1.next() ) {
+//				brand_id = id1.getInt( 1 );
+//			}
+            
+            pstmt = null;
+            pstmt = conn.prepareStatement( sql[ 1 ]);
+            pstmt.setString( 1, model.getBrake() );
+            ResultSet id2 = pstmt.executeQuery();
+            int brake_id = 0;
+            while(id2.next()) {
+            	brake_id = id2.getInt(1);
+            }
+            
+            pstmt = null;
+            pstmt = conn.prepareStatement( sql[ 2 ]);
+            pstmt.setString( 1, model.getDesign() );
+            ResultSet id3 = pstmt.executeQuery();
+            int design_id = 0;
+            while(id3.next()) {
+            	design_id = id3.getInt(1);
+            }
+            
+            pstmt = null;
+            pstmt = conn.prepareStatement( sql[ 3 ]);
+            pstmt.setString( 1, model.getSize() );
+            ResultSet id4 = pstmt.executeQuery();
+            int size_id = 0;
+            while(id4.next()) {
+            	size_id = id4.getInt(1);
+            }
+            
+            pstmt = null;
+            pstmt = conn.prepareStatement( sql[ 4 ]);
+            pstmt.setString( 1, model.getType() );
+            ResultSet id5 = pstmt.executeQuery();
+            int type_id = 0;
+            while(id5.next()) {
+            	type_id = id5.getInt(1);
+            }
+            
+            
+            pstmt = null;
+            pstmt = conn.prepareStatement( sql[ 5 ]);
+            pstmt.setString( 1, model.getCode() );
+            pstmt.setInt( 2, model.getSpeed() );
+            pstmt.setInt( 3, brand_id );
+            pstmt.setInt( 4, brake_id );
+            pstmt.setInt( 5, design_id );
+            pstmt.setInt( 6, size_id );
+            pstmt.setInt( 7, type_id );
+            pstmt.executeQuery();
+            
+            return true;
+            
+        } catch ( SQLException ex ) {
+            ex.printStackTrace();
             return false;
         }
+        
     }
 }

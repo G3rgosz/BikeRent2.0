@@ -1,7 +1,7 @@
 package model;
 
 public class MemberModel {
-    
+	   
     private String name;
     private String email;
     private String phone;
@@ -50,5 +50,4 @@ public class MemberModel {
     public void setIdentity(String identity) {
         this.identity = identity;
     }
-    
 }
